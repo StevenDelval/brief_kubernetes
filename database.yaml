@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sdelval
+  name: backend-database-service
+  labels:
+    app: backend-database
+spec:
+  selector:
+    app: backend-database
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sdelval
+  name: backend-database-deployment
+  labels:
+      app: backend-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-database
+  template:
+    metadata:
+      labels:
+        app: backend-database
+    spec:
+      containers:
+      - name: backend-database
+        image: sengsathit/brief-mysql:latest
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secret
+              key: database-root-password
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secret
+              key: database-user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secret
+              key: database-password
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: database-secret
+              key: database-name
+        
