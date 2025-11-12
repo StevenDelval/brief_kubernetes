@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: sdelval
+  namespace: stdelval
   name: backend-database-service
   labels:
     app: backend-database
@@ -18,7 +18,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: sdelval
+  namespace: stdelval
   name: backend-database-deployment
   labels:
       app: backend-database
