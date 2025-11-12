@@ -93,3 +93,14 @@ Définir le namespace par défaut pour la session actuelle :
 ```bash
 kubectl config set-context --current --namespace=<your_namespace>
 ```
+
+
+kubectl delete all --all -n <your_namespace> # delete all pods , service and deployments
+kubectl delete secrets --all -n <your_namespace> delete all sectres 
+kubectl delete configmaps --all -n <your_namespace> delete all configmaps 
+
+kubectl apply -f config_map_secrets.yaml 
+kubectl apply -f database.yaml 
+kubectl apply -f api.yaml 
+
+kubectl port-forward service/backend-api-service 8000:8000
