@@ -148,4 +148,24 @@ kubectl get svc -n ingress-nginx
 
 kubectl get pods 
 kubectl logs pod_name
-kubectl port-forward svc/frontend-streamlit-service 8501:8501 -n stdelval
+kubectl port-forward svc/frontend-streamlit-service 8501:8501 -n <your_namespace> 
+
+## V. Surveillance et Debugging
+### 1. Lister les pods du namespace
+```bash
+kubectl get pods -n <your_namespace>
+```
+### 2. Consulter les logs d’un pod
+```bash
+kubectl get pods -n <your_namespace>
+```
+### 3. Accès à l’interface Streamlit en local
+```bash
+kubectl describe pod <pod_name> -n <your_namespace>
+kubectl describe svc <service_name> -n <your_namespace>
+kubectl describe deployment <deployment_name> -n <your_namespace>
+```
+### 4. Accès à l’interface Streamlit en local
+```bash
+kubectl port-forward svc/frontend-streamlit-service 8501:8501 -n <your_namespace>
+```
