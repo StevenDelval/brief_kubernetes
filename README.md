@@ -94,23 +94,53 @@ Définir le namespace par défaut pour la session actuelle :
 kubectl config set-context --current --namespace=<your_namespace>
 ```
 
+## 🚀 IV. Déploiement et gestion du backend
 
-kubectl delete all --all -n <your_namespace> # delete all pods , service and deployments
-kubectl delete secrets --all -n <your_namespace> delete all sectres 
-kubectl delete configmaps --all -n <your_namespace> delete all configmaps 
-kubectl delete ingress --all -n <your_namespace>
+### 1. Nettoyage complet du namespace (si nécessaire)
 
+Avant un nouveau déploiement, il est recommandé de supprimer toutes les ressources existantes dans le namespace :
+
+```bash
+kubectl delete all --all -n <your_namespace>          # Supprime tous les pods, services et déploiements
+kubectl delete secrets --all -n <your_namespace>      # Supprime tous les secrets
+kubectl delete configmaps --all -n <your_namespace>   # Supprime tous les ConfigMaps
+kubectl delete ingress --all -n <your_namespace>      # Supprime tous les Ingress
+```
+
+### 2. Application des fichiers de configuration
+
+Déployez ensuite les différentes ressources nécessaires au backend :
+
+```bash
 kubectl apply -f config_map_secrets.yaml
 kubectl apply -f pvc_database.yaml
-kubectl apply -f database.yaml 
-kubectl apply -f api.yaml 
+kubectl apply -f database.yaml
+kubectl apply -f api.yaml
 kubectl apply -f ingress.yaml
+```
 
+### 3. Accès au backend en local
+
+Vous pouvez rediriger le port local vers le service du backend pour accéder à l’API :
+
+```bash
 kubectl port-forward service/backend-api-service 8000:8000
+```
 
+### 4. Suppression complète des ressources (tous namespaces confondus)
+
+En cas de nettoyage global du cluster (toutes namespaces inclus) :
+
+```bash
 kubectl delete all --all
-kubectl delete secrets --all 
+kubectl delete secrets --all
 kubectl delete configmaps --all
 kubectl delete ingress --all
+```
 
+### 5. Vérification de l’Ingress Controller
+
+Pour vérifier le service de l’Ingress NGINX déployé :
+```bash
 kubectl get svc -n ingress-nginx
+```
