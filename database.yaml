@@ -21,7 +21,7 @@ metadata:
   namespace: stdelval
   name: backend-database-deployment
   labels:
-      app: backend-database
+    app: backend-database
 spec:
   replicas: 1
   selector:
@@ -37,6 +37,23 @@ spec:
         image: sengsathit/brief-mysql:latest
         ports:
         - containerPort: 3306
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - mysqladmin ping -h localhost -u root -p"$MYSQL_ROOT_PASSWORD"
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -58,4 +75,12 @@ spec:
             secretKeyRef:
               name: database-secret
               key: database-name
-        
+
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: database-pvc
