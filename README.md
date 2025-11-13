@@ -116,6 +116,7 @@ kubectl apply -f config_map_secrets.yaml
 kubectl apply -f pvc_database.yaml
 kubectl apply -f database.yaml
 kubectl apply -f api.yaml
+kubectl apply -f streamlit.yaml
 kubectl apply -f ingress.yaml
 ```
 
@@ -144,3 +145,7 @@ Pour vérifier le service de l’Ingress NGINX déployé :
 ```bash
 kubectl get svc -n ingress-nginx
 ```
+
+kubectl get pods 
+kubectl logs pod_name
+kubectl port-forward svc/frontend-streamlit-service 8501:8501 -n stdelval
