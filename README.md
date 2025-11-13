@@ -98,9 +98,19 @@ kubectl config set-context --current --namespace=<your_namespace>
 kubectl delete all --all -n <your_namespace> # delete all pods , service and deployments
 kubectl delete secrets --all -n <your_namespace> delete all sectres 
 kubectl delete configmaps --all -n <your_namespace> delete all configmaps 
+kubectl delete ingress --all -n <your_namespace>
 
-kubectl apply -f config_map_secrets.yaml 
+kubectl apply -f config_map_secrets.yaml
+kubectl apply -f pvc_database.yaml
 kubectl apply -f database.yaml 
 kubectl apply -f api.yaml 
+kubectl apply -f ingress.yaml
 
 kubectl port-forward service/backend-api-service 8000:8000
+
+kubectl delete all --all
+kubectl delete secrets --all 
+kubectl delete configmaps --all
+kubectl delete ingress --all
+
+kubectl get svc -n ingress-nginx
