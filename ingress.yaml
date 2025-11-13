@@ -1,10 +1,29 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: backend-api-ingress
+#   namespace: stdelval
+# spec:
+#   ingressClassName: azure-application-gateway  
+#   rules:
+#   - http:
+#       paths:
+#       - path: /stdelval
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: backend-api-service
+#             port:
+#               number: 8000
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: backend-api-ingress
+  name: frontend-streamlit-ingress
   namespace: stdelval
+  annotations:
+    appgw.ingress.kubernetes.io/backend-protocol: "http"
 spec:
-  ingressClassName: nginx  
+  ingressClassName: azure-application-gateway
   rules:
   - http:
       paths:
@@ -12,6 +31,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: backend-api-service
+            name: frontend-streamlit-service
             port:
-              number: 8000
+              number: 8501
